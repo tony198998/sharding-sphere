@@ -1,2 +1,2 @@
-# sharding-sphere
- 分表，读写分离，主从复制（使用mycat中间件）
+1、sharding-datasource:分库读写分离
+2、

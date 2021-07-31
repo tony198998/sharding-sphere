@@ -1,0 +1,38 @@
+server:
+  port: 8084
+
+spring:
+  shardingsphere:
+    datasource:
+      names: master
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/sys_logs?characterEncoding=utf-8
+        username: root
+        password: 123456
+    sharding:
+      tables:
+        user:
+          actual-data-nodes: master.user_${202101..202107}
+          table-strategy:
+#            inline:
+#              sharding-column: id
+#              algorithm-expression: user_${id.longValue() % 4}
+            standard:
+              sharding-column: create_time
+              precise-algorithm-class-name: com.wode.algorithm.MyPreciseShardingAlgorithm
+#              range-algorithm-class-name: com.wode.algorithm.MyPreciseShardingAlgorithm
+    props:
+      sql:
+        show: true
+  main:
+    allow-bean-definition-overriding: true
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.wode.entity
+
+db:
+  table:
+    names: sys_logs
+    startYear: 2021
